@@ -1,5 +1,7 @@
 package com.intellidesk.tools;
 
+import com.intellidesk.entity.Priority;
+import com.intellidesk.entity.Status;
 import com.intellidesk.entity.Ticket;
 import com.intellidesk.service.TicketService;
 import lombok.RequiredArgsConstructor;
@@ -29,10 +31,27 @@ public class TicketDBTools {
         return ticketService.getTicketByUsername(username);
     }
 
-    @Tool(description = "Update a ticket in the database")
-    public Ticket updateTicketTool(@ToolParam(description = "Ticket details which needs to be updated") Ticket ticket) {
-        System.out.println("Updating ticket: " + ticket);
-        return ticketService.updateTicket(ticket);
+    @Tool(description = "Update an existing ticket. Only the fields that need to be changed should be provided.")
+    public String updateTicketTool(
+            @ToolParam(description = "ID of the existing ticket") Long id,
+
+            @ToolParam(description = "New summary. Pass null if summary should not be changed.")
+            String summary,
+
+            @ToolParam(description = "New priority: LOW, MEDIUM, or HIGH. Pass null if priority should not be changed.")
+            Priority priority,
+
+            @ToolParam(description = "New status: OPEN, IN_PROGRESS, or CLOSED. Pass null if status should not be changed.")
+            Status status) {
+
+        System.out.println(
+                "Updating ticket id=" + id +
+                        ", summary=" + summary +
+                        ", priority=" + priority +
+                        ", status=" + status
+        );
+
+        return ticketService.updateTicket(id, summary, priority, status);
     }
 
     @Tool(description = "Get the current time in milliseconds")

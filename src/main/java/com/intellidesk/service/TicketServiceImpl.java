@@ -1,5 +1,7 @@
 package com.intellidesk.service;
 
+import com.intellidesk.entity.Priority;
+import com.intellidesk.entity.Status;
 import com.intellidesk.entity.Ticket;
 import com.intellidesk.repo.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +41,10 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Ticket updateTicket(Ticket ticket) {
-        System.out.println("Updating ticket: " + ticket);
-        var updatedTicket = ticketRepository.save(ticket);
+    public String updateTicket(Long id, String summary, Priority priority, Status status) {
+        var updatedTicket = ticketRepository.updateTicket(id, summary, priority.name(), status.name());
         System.out.println("Ticket updated: " + updatedTicket);
-        return updatedTicket;
+        return "Ticket updated successfully";
     }
 
 }

@@ -1,5 +1,7 @@
 package com.intellidesk.service;
 
+import com.intellidesk.entity.Priority;
+import com.intellidesk.entity.Status;
 import com.intellidesk.entity.Ticket;
 
 public interface TicketService {
@@ -7,5 +9,6 @@ public interface TicketService {
     Ticket createTicket(Ticket ticket);
     Ticket getTicketById(Long id);
     Ticket getTicketByUsername(String username);
-    Ticket updateTicket(Ticket ticket);
+
+    String updateTicket(Long id, String summary, Priority priority, Status status);
 }
