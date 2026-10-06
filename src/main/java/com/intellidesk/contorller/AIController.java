@@ -15,7 +15,7 @@ public class AIController {
     private AIService aiService;
 
     @GetMapping
-    public ResponseEntity<String> getResponseFromAssistant(String query) {
-        return ResponseEntity.ok(aiService.getResponseFromAssistant(query));
+    public ResponseEntity<String> getResponseFromAssistant(String query, String username) {
+        return ResponseEntity.ok(aiService.getResponseFromAssistant(query,username));
     }
 }

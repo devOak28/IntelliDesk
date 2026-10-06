@@ -1,7 +1,11 @@
 package com.intellidesk.service;
 
+import com.intellidesk.tools.TicketDBTools;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,9 +14,18 @@ public class AIServiceImpl implements AIService {
     @Autowired
     private  ChatClient chatClient;
 
-    public String getResponseFromAssistant(String query){
+    @Autowired
+    private TicketDBTools ticketDBTools;
+
+    @Value("classpath:/helpdesk-system.st")
+    private Resource systemPromptResource;
+
+    public String getResponseFromAssistant(String query,String userName){
         return chatClient.prompt()
+                .tools(ticketDBTools)
                 .user(query)
+                .system(systemPromptResource)
+                .advisors(a-> a.param(ChatMemory.CONVERSATION_ID,userName))
                 .call()
                 .content();
     }
