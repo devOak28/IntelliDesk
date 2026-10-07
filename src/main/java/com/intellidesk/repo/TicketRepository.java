@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
-    Optional<Ticket> findByUsername(String username);
+    Optional<Ticket> findByUsernameIgnoreCase(String username);
 
     @Modifying
     @Transactional
@@ -33,4 +33,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
             @Param("priority") String priority,
             @Param("status") String status
     );
+
+    @Query(value = "SELECT COUNT(*) FROM tbl_tickets WHERE status = :name", nativeQuery = true)
+    int getTicketCountByStatus(String name);
 }

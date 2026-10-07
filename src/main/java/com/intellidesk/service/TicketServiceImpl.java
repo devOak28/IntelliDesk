@@ -35,16 +35,23 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Ticket getTicketByUsername(String username) {
         System.out.println("Fetching ticket for username: " + username);
-        var result = ticketRepository.findByUsername(username).orElse(null);
+        var result = ticketRepository.findByUsernameIgnoreCase(username).orElse(null);
         System.out.println("Found ticket: " + result);
         return result;
     }
 
     @Override
     public String updateTicket(Long id, String summary, Priority priority, Status status) {
-        var updatedTicket = ticketRepository.updateTicket(id, summary, priority.name(), status.name());
+        String priorityStr = (priority != null) ? priority.name() : null;
+        String statusStr = (status != null) ? status.name() : null;
+        var updatedTicket = ticketRepository.updateTicket(id, summary, priorityStr, statusStr);
         System.out.println("Ticket updated: " + updatedTicket);
         return "Ticket updated successfully";
+    }
+
+    @Override
+    public int getTicketCountByStatus(Status status) {
+        return ticketRepository.getTicketCountByStatus(status.name());
     }
 
 }

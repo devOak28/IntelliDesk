@@ -11,4 +11,6 @@ public interface TicketService {
     Ticket getTicketByUsername(String username);
 
     String updateTicket(Long id, String summary, Priority priority, Status status);
+
+    int getTicketCountByStatus(Status status);
 }
